@@ -51,11 +51,15 @@ jobs:
 
   - bash: |
       dotnet restore || dotnet restore --disable-parallel
-    displayName: 'restore'
+    displayName: 'Restore'
+
+  - bash: |
+      dotnet build -c Release
+    displayName: 'Restore'
 
   - bash: |
       set -eu; set -o pipefail
-      dotnet test -c Release
+      dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
     retryCountOnTaskFailure: 4
     timeoutInMinutes: 10
