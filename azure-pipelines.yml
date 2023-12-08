@@ -21,6 +21,12 @@ jobs:
   strategy:
     maxParallel: 7
     matrix:
+      'RAM, Ubuntu 20.04':
+        IMAGE: "ubuntu-20.04"
+        RAM: true
+      'RAM, Ubuntu 22.04':
+        IMAGE: "ubuntu-20.04"
+        RAM: true
       'Ubuntu 20.04':
         IMAGE: "ubuntu-20.04"
       'Ubuntu 22.04':
@@ -60,6 +66,13 @@ jobs:
 
   - bash: |
       set -eu; set -o pipefail
+      if [[ "${RAM:-}" == true && "$(uname -s)" == Linux ]]; then 
+        Say "Assign TMPDIR to ramdisk /ram"
+        sudo mkdir -p /ram;
+        sudo mount -t tmpfs -o rw,mode=1777 tmpfs ram;
+        sudo chown -R $USER /ram
+        export TMPDIR=/ram
+      fi
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
     retryCountOnTaskFailure: 1
