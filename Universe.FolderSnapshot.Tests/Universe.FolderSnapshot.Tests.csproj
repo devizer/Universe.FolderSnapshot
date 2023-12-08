@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <Import Project="..\Shared-Files\NUnit-Platform.props" />
+
+  <ItemGroup>
+    <None Remove="TestObject\TestObject.7z" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestObject\TestObject.7z">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Universe.FolderSnapshot\Universe.FolderSnapshot.csproj" />
+  </ItemGroup>
+
+
+</Project>

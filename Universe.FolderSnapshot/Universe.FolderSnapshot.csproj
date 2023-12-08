@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net6.0;net40;netstandard2.1;net5.0;netcoreapp3.1;netcoreapp3.0;netcoreapp2.2;netcoreapp2.1;netcoreapp2.0;netcoreapp1.1;</TargetFrameworks>
+        <LangVersion>8.0</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <LangVersion>latest</LangVersion>
+        <DebugType>Full</DebugType>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+        <LangVersion>latest</LangVersion>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+        <NoWarn>1701;1702;CS0162;CS0414;CS1591;NU5048</NoWarn>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <OutputType>Library</OutputType>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IsPackable>true</IsPackable>
+        <PackageId>$(MSBuildProjectName)</PackageId>
+        <Title>$(MSBuildProjectName)</Title>
+        <Authors>devizer</Authors>
+        <Product>$(MSBuildProjectName)</Product>
+        <Description>The fastest copying of folders and files</Description>
+        <PackageProjectUrl>https://github.com/devizer/Universe.FolderSnapshot </PackageProjectUrl>
+        <RepositoryUrl>https://github.com/devizer/Universe.FolderSnapshot </RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <!--PackageIconUrl>https://raw.githubusercontent.com/devizer/Universe.SqlTrace/master/Icon/v1.png</PackageIconUrl-->
+        <PackageTags>windows linux macos</PackageTags>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <NoWarn>1701;1702;CS0162;CS0414;NU1701</NoWarn>
+    </PropertyGroup>
+
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net35'">
+        <AssemblyAttribute Include="System.Runtime.Versioning.TargetFrameworkAttribute">
+            <_Parameter1>.NETFramework,Version=v3.5</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net30'">
+        <AssemblyAttribute Include="System.Runtime.Versioning.TargetFrameworkAttribute">
+            <_Parameter1>.NETFramework,Version=v3.0</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net20'">
+        <AssemblyAttribute Include="System.Runtime.Versioning.TargetFrameworkAttribute">
+            <_Parameter1>.NETFramework,Version=v2.0</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net35' Or '$(TargetFramework)' == 'net30' Or '$(TargetFramework)' == 'net20' ">
+        <PackageReference Include="Theraot.Core" Version="3.0.2" />
+    </ItemGroup>
+
+
+
+</Project>
