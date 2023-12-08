@@ -69,7 +69,7 @@ jobs:
       if [[ -n "${TEST_RAM_DISK:-}" && "$(uname -s)" == Linux ]]; then 
         Say "Assign TMPDIR to ramdisk /ram"
         sudo mkdir -p /ram;
-        sudo mount -t tmpfs -o rw,mode=1777 tmpfs ram;
+        sudo mount -t tmpfs -o rw,mode=1777 tmpfs /ram;
         sudo chown -R $USER /ram
         export TMPDIR=/ram
       fi
