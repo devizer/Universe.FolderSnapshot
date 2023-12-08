@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Universe.FolderSnapshot
 {
@@ -10,6 +11,18 @@ namespace Universe.FolderSnapshot
         {
             Compression = compression;
         }
+
+        public bool IsCompressionSupported
+        {
+            get
+            {
+                var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : $"| {Compression.FastestCompressPipe}";
+                var args = $"-e -c \"echo 42 {pipe} > /dev/null\"";
+                var result = ExecProcessHelper.HiddenExec("sh", args);
+                return result.ExitCode == 0;
+            }
+        }
+    
 
         public void CreateSnapshot(string sourceFolder, string destinationFile)
         {
