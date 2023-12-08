@@ -55,7 +55,7 @@ jobs:
 
   - bash: |
       dotnet build -c Release
-    displayName: 'Restore'
+    displayName: 'Build Release'
 
   - bash: |
       set -eu; set -o pipefail
@@ -63,7 +63,7 @@ jobs:
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
     retryCountOnTaskFailure: 4
     timeoutInMinutes: 10
-    displayName: 'Test All'
+    displayName: 'Test Release'
 
   - bash: |
       set -eu; set -o pipefail
