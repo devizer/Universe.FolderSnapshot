@@ -15,7 +15,7 @@ namespace Universe.FolderSnapshot
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : $"| {Compression.FastestCompressPipe}";
             string args = $"-e -c \"tar cf - '{sourceFolder}' {pipe} > '{destinationFile}'\"";
-            Console.WriteLine($"{Compression.Title} command line: {Environment.NewLine}sh {args}");
+            // Console.WriteLine($"{Compression.Title} command line: {Environment.NewLine}sh {args}");
             var result = ExecProcessHelper.HiddenExec("sh", args);
             result.DemandGenericSuccess("Create snapshot failed");
         }
@@ -23,7 +23,7 @@ namespace Universe.FolderSnapshot
         public void RestoreSnapshot(string sourceFile, string destinationFolder)
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : Compression.FastestCompressPipe;
-            string args = $"-c cat \"{sourceFile}\" | tar xf - -C \"{destinationFolder}\"";
+            string args = $"-e -c \"cat '{sourceFile}' | tar xf - -C '{destinationFolder}'\"";
             var result = ExecProcessHelper.HiddenExec("sh", args);
             result.DemandGenericSuccess("Snapshot restore failed");
         }
