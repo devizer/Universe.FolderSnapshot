@@ -27,7 +27,7 @@ namespace Universe.FolderSnapshot.Tests
         }
 
         [Test]
-        [RequiredOs(Os.Linux | Os.Mac | Os.FreeBSD)]
+        [RequiredOs(Os.Linux, Os.Mac, Os.FreeBSD)]
         public void CreateSnapshot()
         {
             foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
