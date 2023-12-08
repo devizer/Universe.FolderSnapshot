@@ -72,6 +72,9 @@ jobs:
         sudo mount -t tmpfs -o rw,mode=1777 tmpfs /ram;
         sudo chown -R $USER /ram
         export TMPDIR=/ram
+      else
+        export TMPDIR="$(pwd)/Temp Snapshots"
+        mkdir -p "$TMPDIR"
       fi
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
