@@ -36,7 +36,7 @@ namespace Universe.FolderSnapshot
 
         public void RestoreSnapshot(string sourceFile, string destinationFolder)
         {
-            var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : Compression.FastestCompressPipe;
+            var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : $"| {Compression.DecompressPipe}";
             if (!Directory.Exists(destinationFolder)) Directory.CreateDirectory(destinationFolder);
             string args = $"-e -c \"cat '{sourceFile}' {pipe}| tar xf - -C '{destinationFolder}'\"";
             var result = ExecProcessHelper.HiddenExec("sh", args);
