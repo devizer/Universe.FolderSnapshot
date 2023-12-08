@@ -26,8 +26,9 @@ namespace Universe.FolderSnapshot.Tests
             Console.WriteLine(TestEnv.TestObjectFullPath);
         }
 
+        [Test]
         [RequiredOs(Os.Linux | Os.Mac | Os.FreeBSD)]
-        public void TreCreate()
+        public void CreateSnapshot()
         {
             foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
             {
