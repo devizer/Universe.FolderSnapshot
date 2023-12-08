@@ -61,7 +61,7 @@ jobs:
       set -eu; set -o pipefail
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
-    retryCountOnTaskFailure: 4
+    retryCountOnTaskFailure: 1
     timeoutInMinutes: 10
     displayName: 'Test Release'
 
