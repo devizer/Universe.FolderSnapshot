@@ -100,6 +100,7 @@ jobs:
     displayName: 'Linux System Statistic'
 
 - job: Benchmark
+  dependsOn: Test
   pool:
     vmImage: '$(IMAGE)'
   timeoutInMinutes: 20
