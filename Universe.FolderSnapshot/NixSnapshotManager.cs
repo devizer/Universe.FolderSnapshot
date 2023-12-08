@@ -1,4 +1,6 @@
-﻿namespace Universe.FolderSnapshot
+﻿using System;
+
+namespace Universe.FolderSnapshot
 {
     public class NixSnapshotManager : IFolderSnapshotManager
     {
@@ -13,6 +15,7 @@
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : Compression.FastestCompressPipe;
             string args = $"-c tar cf - \"sourceFolder\" {pipe} > \"{destinationFile}\"";
+            Console.WriteLine($"{Compression.Title} command line: {Environment.NewLine}sh -c {args}");
             var result = ExecProcessHelper.HiddenExec("sh", args);
             result.DemandGenericSuccess("Create snapshot failed");
         }
