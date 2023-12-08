@@ -29,7 +29,7 @@ namespace Universe.FolderSnapshot
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : $"| {Compression.FastestCompressPipe}";
             // string args = $"-e -c \"tar cf - '{sourceFolder}' {pipe} > '{destinationFile}'\"";
-            string args = $"-e -c \"pushd '{sourceFolder}'; tar cf - .{pipe} > '{destinationFile}'; popd\"";
+            string args = $"-e -c \"cd '{sourceFolder}'; tar cf - .{pipe} > '{destinationFile}'\"";
             // Console.WriteLine($"{Compression.Title} command line: {Environment.NewLine}sh {args}");
             var result = ExecProcessHelper.HiddenExec("sh", args);
             result.DemandGenericSuccess("Create snapshot failed");
