@@ -29,7 +29,7 @@ namespace Universe.FolderSnapshot.Tests
 
         [Test]
         [RequiredOs(Os.Linux, Os.Mac, Os.FreeBSD)]
-        public void X_CreateSnapshot()
+        public void X1_CreateSnapshot()
         {
             foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
             {
@@ -39,7 +39,31 @@ namespace Universe.FolderSnapshot.Tests
                     var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot.{compressorDefinition.Title}");
                     Stopwatch sw = Stopwatch.StartNew();
                     man.CreateSnapshot(TestEnv.TestObjectFullPath, snapshotFullName);
-                    Console.WriteLine($"{compressorDefinition.Title}: {new FileInfo(snapshotFullName).Length:n0} bytes, {sw.ElapsedMilliseconds:n0} msec");
+                    var elapsed = sw.ElapsedMilliseconds;
+                    Console.WriteLine($"{compressorDefinition.Title}: stored as {new FileInfo(snapshotFullName).Length:n0} bytes, {elapsed:n0} msec");
+                }
+                else
+                {
+                    Console.WriteLine($"{compressorDefinition.Title} IS NOT SUPPORTED");
+                }
+            }
+        }
+
+        [Test]
+        [RequiredOs(Os.Linux, Os.Mac, Os.FreeBSD)]
+        public void X2_RestoreSnapshot()
+        {
+            foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
+            {
+                NixSnapshotManager man = new NixSnapshotManager(compressorDefinition);
+                if (man.IsCompressionSupported)
+                {
+                    var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot.{compressorDefinition.Title}");
+                    var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.{compressorDefinition.Title}");
+                    Stopwatch sw = Stopwatch.StartNew();
+                    man.RestoreSnapshot(snapshotFullName, restoreTo);
+                    var elapsed = sw.ElapsedMilliseconds;
+                    Console.WriteLine($"{compressorDefinition.Title}: restored {elapsed:n0} msec");
                 }
                 else
                 {
