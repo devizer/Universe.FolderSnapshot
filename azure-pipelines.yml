@@ -23,10 +23,10 @@ jobs:
     matrix:
       'RAM, Ubuntu 20.04':
         IMAGE: "ubuntu-20.04"
-        RAM: true
+        TEST_RAM_DISK: /ram
       'RAM, Ubuntu 22.04':
         IMAGE: "ubuntu-20.04"
-        RAM: true
+        TEST_RAM_DISK: /ram
       'Ubuntu 20.04':
         IMAGE: "ubuntu-20.04"
       'Ubuntu 22.04':
@@ -66,7 +66,7 @@ jobs:
 
   - bash: |
       set -eu; set -o pipefail
-      if [[ "${RAM:-}" == true && "$(uname -s)" == Linux ]]; then 
+      if [[ -n "${TEST_RAM_DISK:-}" && "$(uname -s)" == Linux ]]; then 
         Say "Assign TMPDIR to ramdisk /ram"
         sudo mkdir -p /ram;
         sudo mount -t tmpfs -o rw,mode=1777 tmpfs ram;
