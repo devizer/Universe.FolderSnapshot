@@ -14,7 +14,7 @@ namespace Universe.FolderSnapshot
         public void CreateSnapshot(string sourceFolder, string destinationFile)
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : Compression.FastestCompressPipe;
-            string args = $"-c \"tar cf - \"{sourceFolder}\" {pipe} > \"{destinationFile}\"\"";
+            string args = $"-c \"tar cf - \\\"{sourceFolder}\\\" {pipe} > \\\"{destinationFile}\\\"\"";
             Console.WriteLine($"{Compression.Title} command line: {Environment.NewLine}sh {args}");
             var result = ExecProcessHelper.HiddenExec("sh", args);
             result.DemandGenericSuccess("Create snapshot failed");
