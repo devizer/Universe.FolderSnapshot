@@ -9,27 +9,18 @@ namespace Universe.FolderSnapshot.Tests
 {
     internal class TestEnv
     {
-        private static Lazy<string> _TestObjectFullPath =
-            new Lazy<string>(PrepareTestObjectFullPath, LazyThreadSafetyMode.ExecutionAndPublication);
+        private static Lazy<string> _TestObjectFullPath = new Lazy<string>(PrepareTestObjectFullPath, LazyThreadSafetyMode.ExecutionAndPublication);
+
+        private static Lazy<string> _TestSnapshotFolder = new Lazy<string>(GetSnapshotFolder, LazyThreadSafetyMode.ExecutionAndPublication);
 
         public static string TestObjectFullPath => _TestObjectFullPath.Value;
+        public static string TestSnapshotFolder => _TestSnapshotFolder.Value;
 
         private static string PrepareTestObjectFullPath()
         {
-            string tempRoot;
-            if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
-            {
-                tempRoot = Environment.GetEnvironmentVariable("TEMP");
-            }
-            else
-            {
-                tempRoot = Environment.GetEnvironmentVariable("TMPDIR");
-            }
+            var tempRoot = GetTempRoot();
 
             var slash = Path.DirectorySeparatorChar;
-            if (string.IsNullOrEmpty(tempRoot))
-                tempRoot = slash + "tmp";
-
             var ret = Path.Combine(tempRoot, "Snapshot tests original object");
             if (!Directory.Exists(ret)) Directory.CreateDirectory(ret);
 
@@ -42,5 +33,32 @@ namespace Universe.FolderSnapshot.Tests
 
             return ret;
         }
+
+        private static string GetTempRoot()
+        {
+            string tempRoot;
+            if (CrossInfo.ThePlatform == CrossInfo.Platform.Windows)
+            {
+                tempRoot = Environment.GetEnvironmentVariable("TEMP");
+            }
+            else
+            {
+                tempRoot = Environment.GetEnvironmentVariable("TMPDIR");
+            }
+
+            if (string.IsNullOrEmpty(tempRoot))
+                tempRoot = Path.DirectorySeparatorChar + "tmp";
+            
+            return tempRoot;
+        }
+
+        private static string GetSnapshotFolder()
+        {
+            var ret = Path.Combine(GetTempRoot(), "Snapshot tests");
+            if (!Directory.Exists(ret)) Directory.CreateDirectory(ret);
+            return ret;
+        }
+
+
     }
 }

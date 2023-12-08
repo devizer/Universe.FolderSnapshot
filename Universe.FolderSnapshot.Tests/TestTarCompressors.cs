@@ -25,5 +25,21 @@ namespace Universe.FolderSnapshot.Tests
         {
             Console.WriteLine(TestEnv.TestObjectFullPath);
         }
+
+        [RequiredOs(Os.Linux | Os.Mac | Os.FreeBSD)]
+        public void TreCreate()
+        {
+            foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
+            {
+                NixSnapshotManager man = new NixSnapshotManager(compressorDefinition);
+                var snapshotFullName = Path.Combine(TestEnv.TestObjectFullPath, $"snapshot.{compressorDefinition.Title}");
+                man.CreateSnapshot(TestEnv.TestObjectFullPath, snapshotFullName);
+                Console.WriteLine($"{compressorDefinition.Title}: {new FileInfo(snapshotFullName).Length:n0} bytes");
+            }
+
+
+        }
+
+
     }
 }

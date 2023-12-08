@@ -13,14 +13,16 @@
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : Compression.FastestCompressPipe;
             string args = $"-c tar cf - \"sourceFolder\" {pipe} > \"{destinationFile}\"";
-            throw new System.NotImplementedException();
+            var result = ExecProcessHelper.HiddenExec("sh", args);
+            result.DemandGenericSuccess("Create snapshot failed");
         }
 
         public void RestoreSnapshot(string sourceFile, string destinationFolder)
         {
             var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : Compression.FastestCompressPipe;
             string args = $"-c cat \"{sourceFile}\" | tar xf - -C \"{destinationFolder}\"";
-            throw new System.NotImplementedException();
+            var result = ExecProcessHelper.HiddenExec("sh", args);
+            result.DemandGenericSuccess("Snapshot restore failed");
         }
     }
 }
