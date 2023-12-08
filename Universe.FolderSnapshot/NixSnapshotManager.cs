@@ -17,7 +17,7 @@ namespace Universe.FolderSnapshot
             get
             {
                 var pipe = string.IsNullOrEmpty(Compression.FastestCompressPipe) ? "" : $"| {Compression.FastestCompressPipe}";
-                var args = $"-e -c \"echo 42 {pipe} > /dev/null\"";
+                var args = $"-e -c \"set -o pipefail; set -e; tar --help 1>/dev/null 2>&1 && echo 42 {pipe} > /dev/null\"";
                 var result = ExecProcessHelper.HiddenExec("sh", args);
                 return result.ExitCode == 0;
             }

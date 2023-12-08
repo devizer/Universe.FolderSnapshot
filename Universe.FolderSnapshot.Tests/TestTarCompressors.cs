@@ -47,7 +47,5 @@ namespace Universe.FolderSnapshot.Tests
                 }
             }
         }
-
-
     }
 }
