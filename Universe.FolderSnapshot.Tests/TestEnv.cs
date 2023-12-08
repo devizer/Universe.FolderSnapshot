@@ -54,7 +54,7 @@ namespace Universe.FolderSnapshot.Tests
 
         private static string GetSnapshotFolder()
         {
-            var ret = Path.Combine(GetTempRoot(), "Snapshot tests");
+            var ret = Path.Combine(GetTempRoot(), "Temp Snapshot tests");
             if (!Directory.Exists(ret)) Directory.CreateDirectory(ret);
             return ret;
         }

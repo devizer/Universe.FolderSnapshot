@@ -34,7 +34,7 @@ namespace Universe.FolderSnapshot.Tests
             foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
             {
                 NixSnapshotManager man = new NixSnapshotManager(compressorDefinition);
-                var snapshotFullName = Path.Combine(TestEnv.TestObjectFullPath, $"snapshot.{compressorDefinition.Title}");
+                var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot.{compressorDefinition.Title}");
                 Stopwatch sw = Stopwatch.StartNew();
                 man.CreateSnapshot(TestEnv.TestObjectFullPath, snapshotFullName);
                 Console.WriteLine($"{compressorDefinition.Title}: {new FileInfo(snapshotFullName).Length:n0} bytes, {sw.ElapsedMilliseconds:n0} msec");
