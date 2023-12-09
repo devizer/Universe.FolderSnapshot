@@ -73,9 +73,11 @@ jobs:
         sudo mount -t tmpfs -o rw,mode=1777 tmpfs /ram;
         sudo chown -R $USER /ram
         export TMPDIR=/ram
-      else
+      elif [[ "$(uname -s)" == Darwin ]]; then 
         export TMPDIR="$(pwd)/Temp Snapshots"
         mkdir -p "$TMPDIR"
+      else
+        uname -s
       fi
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
