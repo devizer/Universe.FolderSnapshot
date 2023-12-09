@@ -7,7 +7,7 @@ public class CompressorDefinition
     public string DecompressPipe { get; }
     public string Extension { get; }
 
-    public CompressorDefinition(string title, string fastestCompressPipe, string decompressPipe, string extension)
+    public CompressorDefinition(string title, string extension, string fastestCompressPipe, string decompressPipe)
     {
         Title = title;
         FastestCompressPipe = fastestCompressPipe;
