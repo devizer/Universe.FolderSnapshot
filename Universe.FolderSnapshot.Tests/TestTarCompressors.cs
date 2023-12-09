@@ -95,21 +95,20 @@ namespace Universe.FolderSnapshot.Tests
         [Test]
         public void Y2_RestoreSnapshot()
         {
-            foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
+            foreach (var manager in FolderSnapshotManagerExtensions.GetListByPlatform())
             {
-                NixSnapshotManager man = new NixSnapshotManager(compressorDefinition);
-                if (man.IsCompressionSupported)
+                if (manager.IsSupported())
                 {
-                    var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot.{compressorDefinition.Title}");
-                    var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.{compressorDefinition.Title}");
+                    var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot{manager.Extension}");
+                    var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.{manager.GetTitle()}");
                     Stopwatch sw = Stopwatch.StartNew();
-                    man.RestoreSnapshot(snapshotFullName, restoreTo);
+                    manager.RestoreSnapshot(snapshotFullName, restoreTo);
                     var elapsed = sw.ElapsedMilliseconds;
-                    Console.WriteLine($"{compressorDefinition.Title}: restored {elapsed:n0} msec");
+                    Console.WriteLine($"{manager.GetTitle()}: restored {elapsed:n0} msec");
                 }
                 else
                 {
-                    Console.WriteLine($"{compressorDefinition.Title} IS NOT SUPPORTED");
+                    Console.WriteLine($"{manager.GetTitle()} IS NOT SUPPORTED");
                 }
             }
         }
