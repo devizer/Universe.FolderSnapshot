@@ -43,5 +43,7 @@ namespace Universe.FolderSnapshot
             var result = ExecProcessHelper.HiddenExec("sh", args);
             result.DemandGenericSuccess("Snapshot restore failed");
         }
+
+        public string Extension => Compression.Extension;
     }
 }
