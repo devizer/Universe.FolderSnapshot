@@ -77,7 +77,7 @@ jobs:
         export TMPDIR="$(pwd)/Temp Snapshots"
         mkdir -p "$TMPDIR"
       elif [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
-        export TMPDIR="$(pwd)\\Temp Snapshots"
+        export TEMP="$(pwd)\\Temp Snapshots"
         mkdir -p "$TMPDIR"
       fi
       dotnet test --no-build -c Release
