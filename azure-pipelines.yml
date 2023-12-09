@@ -76,8 +76,9 @@ jobs:
       elif [[ "$(uname -s)" == Darwin ]]; then 
         export TMPDIR="$(pwd)/Temp Snapshots"
         mkdir -p "$TMPDIR"
-      else
-        uname -s
+      elif [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
+        export TMPDIR="$(pwd)\\Temp Snapshots"
+        mkdir -p "$TMPDIR"
       fi
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
