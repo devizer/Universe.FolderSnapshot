@@ -12,6 +12,12 @@ namespace Universe.FolderSnapshot.Tests
     [TestFixture]
     public class TestTarCompressors : NUnitTestsBase
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+
+        }
+
         [Test]
         public void Show_Tar_Compressors()
         {
@@ -73,13 +79,16 @@ namespace Universe.FolderSnapshot.Tests
         }
 
         [Test]
-        public void Y1_CreateSnapshot()
+        [TestCase("First")]
+        [TestCase("Next")]
+        public void Y1_CreateSnapshot(string kind)
         {
             foreach (var manager in FolderSnapshotManagerExtensions.GetListByPlatform())
             {
                 if (manager.IsSupported())
                 {
                     var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot{manager.Extension}");
+                    if (File.Exists(snapshotFullName)) { File.Delete(snapshotFullName); }
                     Stopwatch sw = Stopwatch.StartNew();
                     manager.CreateSnapshot(TestEnv.TestObjectFullPath, snapshotFullName);
                     var elapsed = sw.ElapsedMilliseconds;
@@ -93,7 +102,9 @@ namespace Universe.FolderSnapshot.Tests
         }
 
         [Test]
-        public void Y2_RestoreSnapshot()
+        [TestCase("First")]
+        [TestCase("Next")]
+        public void Y2_RestoreSnapshot(string kind)
         {
             foreach (var manager in FolderSnapshotManagerExtensions.GetListByPlatform())
             {
@@ -101,6 +112,7 @@ namespace Universe.FolderSnapshot.Tests
                 {
                     var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot{manager.Extension}");
                     var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.{manager.GetTitle()}");
+                    if (Directory.Exists(restoreTo)) TryAndForget(() => Directory.Delete(restoreTo, true)); 
                     Stopwatch sw = Stopwatch.StartNew();
                     manager.RestoreSnapshot(snapshotFullName, restoreTo);
                     var elapsed = sw.ElapsedMilliseconds;
@@ -111,6 +123,15 @@ namespace Universe.FolderSnapshot.Tests
                     Console.WriteLine($"{manager.GetTitle()} IS NOT SUPPORTED");
                 }
             }
+        }
+
+        static void TryAndForget(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch {}
         }
     }
 }

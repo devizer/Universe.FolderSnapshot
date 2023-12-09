@@ -9,7 +9,8 @@ public static class FolderSnapshotManagerExtensions
         var ret = new List<IFolderSnapshotManager>();
         if (TinyCrossInfo.IsWindows)
         {
-            ret.Add(new WindowsSnapshotManager());
+            ret.Add(new WindowsSnapshotManager(NetZipCompressionLevel.NoCompression));
+            ret.Add(new WindowsSnapshotManager(NetZipCompressionLevel.Fastest));
         }
         else
         {
@@ -40,7 +41,7 @@ public static class FolderSnapshotManagerExtensions
 
         if (manager is WindowsSnapshotManager winMan)
         {
-            return "ZipFile";
+            return "ZipFile." + winMan.CompressionLevel;
         }
 
         return manager?.GetType().Name;
