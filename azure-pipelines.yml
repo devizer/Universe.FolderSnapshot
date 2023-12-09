@@ -73,7 +73,7 @@ jobs:
         sudo mount -t tmpfs -o rw,mode=1777 tmpfs /ram;
         sudo chown -R $USER /ram
         export TMPDIR=/ram
-      elif [[ "$(uname -s)" == Darwin ]]; then 
+      elif [[ "$(uname -s)" == Darwin || "$(uname -s)" == Linux ]]; then 
         export TMPDIR="$(pwd)/Temp Snapshots"
         mkdir -p "$TMPDIR"
       elif [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
