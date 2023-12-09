@@ -78,7 +78,7 @@ jobs:
         mkdir -p "$TMPDIR"
       elif [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
         export TEMP="$(pwd)\\Temp Snapshots"
-        mkdir -p "$TMPDIR"
+        mkdir -p "$TEMP"
       fi
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
