@@ -46,6 +46,12 @@ public static class FolderSnapshotManagerExtensions
             return "ZipFile." + winMan.CompressionLevel;
         }
 
+        if (manager is XCopySnapshotManager xcopyMan)
+        {
+            return $"xcopy.{(xcopyMan.Buffered ? "buffered" : "pass-through")}";
+        }
+
+
         return manager?.GetType().Name;
     }
 

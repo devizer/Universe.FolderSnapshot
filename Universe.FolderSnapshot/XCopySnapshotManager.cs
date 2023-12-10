@@ -29,7 +29,7 @@ namespace Universe.FolderSnapshot
         {
             string argsBuffered = Buffered ? "" : "/J ";
             string args = $"\"{sourceFolder}\"  \"{destinationFolder}\" {argsBuffered}/E /H /Q /I /Y";
-            Console.WriteLine($"XCopy Args{Environment.NewLine}{args}");
+            // Console.WriteLine($"XCopy Args{Environment.NewLine}{args}");
             var result = ExecProcessHelper.HiddenExec("xcopy", args);
             result.DemandGenericSuccess($"Copy failed. Source '{sourceFolder}'. Destination '{destinationFolder}'");
         }
