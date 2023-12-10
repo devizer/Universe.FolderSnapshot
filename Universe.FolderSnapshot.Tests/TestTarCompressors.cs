@@ -93,7 +93,8 @@ namespace Universe.FolderSnapshot.Tests
                     Stopwatch sw = Stopwatch.StartNew();
                     manager.CreateSnapshot(TestEnv.TestObjectFullPath, snapshotFullName);
                     var elapsed = sw.ElapsedMilliseconds;
-                    Console.WriteLine($"{manager.GetTitle()}: stored as {new FileInfo(snapshotFullName).Length:n0} bytes, {elapsed:n0} msec");
+                    string humanLength = File.Exists(snapshotFullName) ? $"{new FileInfo(snapshotFullName).Length:n0} bytes" : "directory";
+                    Console.WriteLine($"{manager.GetTitle()}: stored as {humanLength}, {elapsed:n0} msec");
                 }
                 else
                 {
@@ -111,8 +112,9 @@ namespace Universe.FolderSnapshot.Tests
             {
                 if (manager.IsSupported())
                 {
+                    bool isFile = !(manager is XCopySnapshotManager);
                     var snapshotFullName2 = Path.Combine(TestEnv.TestSnapshotFolder, $"snapshot{manager.Extension}");
-                    var snapshotFullName = UniqueFilesystemNames.GetLastNextNames(true, snapshotFullName2, 5).Last;
+                    var snapshotFullName = UniqueFilesystemNames.GetLastNextNames(isFile, snapshotFullName2, 5).Last;
                     var restoreTo2 = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.{manager.GetTitle()}");
                     var restoreTo = UniqueFilesystemNames.GetLastNextNames(false, restoreTo2, 5).Next;
                     if (Directory.Exists(restoreTo)) TryAndForget(() => Directory.Delete(restoreTo, true)); 

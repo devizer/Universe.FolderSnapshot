@@ -11,6 +11,8 @@ public static class FolderSnapshotManagerExtensions
         {
             ret.Add(new WindowsSnapshotManager(NetZipCompressionLevel.NoCompression));
             ret.Add(new WindowsSnapshotManager(NetZipCompressionLevel.Fastest));
+            ret.Add(new XCopySnapshotManager(true));
+            ret.Add(new XCopySnapshotManager(false));
         }
         else
         {
