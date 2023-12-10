@@ -19,8 +19,13 @@ jobs:
     vmImage: '$(IMAGE)'
   timeoutInMinutes: 60
   strategy:
-    maxParallel: 7
+    maxParallel: 2
     matrix:
+      'Windows 2019':
+        IMAGE: "windows-2019"
+      'Windows 2022':
+        IMAGE: "windows-2022"
+
       'RAM, Ubuntu 20.04':
         IMAGE: "ubuntu-20.04"
         TEST_RAM_DISK: /ram
@@ -31,11 +36,6 @@ jobs:
         IMAGE: "ubuntu-20.04"
       'Ubuntu 22.04':
         IMAGE: "ubuntu-22.04"
-      
-      'Windows 2019':
-        IMAGE: "windows-2019"
-      'Windows 2022':
-        IMAGE: "windows-2022"
       
       'Mac OS 11':
         IMAGE: 'macos-11'
@@ -84,7 +84,7 @@ jobs:
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
     retryCountOnTaskFailure: 1
     timeoutInMinutes: 10
-    displayName: 'Test Release'
+    displayName: '★TEST RELEASE★'
 
   - bash: |
       set -eu; set -o pipefail
