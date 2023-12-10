@@ -21,21 +21,17 @@ jobs:
   strategy:
     maxParallel: 2
     matrix:
-      'Windows 2019':
-        IMAGE: "windows-2019"
-      'Windows 2022':
-        IMAGE: "windows-2022"
 
+      'Ubuntu 20.04':
+        IMAGE: "ubuntu-20.04"
+      'Ubuntu 22.04':
+        IMAGE: "ubuntu-22.04"
       'RAM, Ubuntu 20.04':
         IMAGE: "ubuntu-20.04"
         TEST_RAM_DISK: /ram
       'RAM, Ubuntu 22.04':
         IMAGE: "ubuntu-22.04"
         TEST_RAM_DISK: /ram
-      'Ubuntu 20.04':
-        IMAGE: "ubuntu-20.04"
-      'Ubuntu 22.04':
-        IMAGE: "ubuntu-22.04"
       
       'Mac OS 11':
         IMAGE: 'macos-11'
@@ -43,6 +39,11 @@ jobs:
         IMAGE: 'macos-13'
       'Mac OS Latest':
         IMAGE: 'macos-latest'
+
+      'Windows 2019':
+        IMAGE: "windows-2019"
+      'Windows 2022':
+        IMAGE: "windows-2022"
   steps:
 
   - bash: |

@@ -4,16 +4,22 @@ using System.IO.Compression;
 
 namespace Universe.FolderSnapshot
 {
-    public class WindowsSnapshotManager : IFolderSnapshotManager
+    public class ZipFileSnapshotManager : IFolderSnapshotManager
     {
 
         public readonly NetZipCompressionLevel CompressionLevel;
 
-        public WindowsSnapshotManager(NetZipCompressionLevel compressionLevel)
+        public ZipFileSnapshotManager(NetZipCompressionLevel compressionLevel)
         {
             CompressionLevel = compressionLevel;
         }
 
+        public static bool IsSupported =>
+#if !NET40
+            true;
+#else
+            false;
+#endif
 
         public void CreateSnapshot(string sourceFolder, string destinationFile)
         {
