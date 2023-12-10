@@ -17,6 +17,6 @@ public class CompressorDefinition
 
     public override string ToString()
     {
-        return $"{nameof(Title)}: {Title}, {nameof(FastestCompressPipe)}: {FastestCompressPipe}, {nameof(DecompressPipe)}: {DecompressPipe}";
+        return $"{nameof(Title)}: {Title}, {nameof(FastestCompressPipe)}: '{FastestCompressPipe}', {nameof(DecompressPipe)}: '{DecompressPipe}'";
     }
 }
