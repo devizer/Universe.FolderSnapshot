@@ -33,6 +33,6 @@ namespace Universe.FolderSnapshot
 #endif
         }
 
-        public string Extension { get; } = ".zip";
+        public string Extension => $".{this.CompressionLevel}.zip";
     }
 }
