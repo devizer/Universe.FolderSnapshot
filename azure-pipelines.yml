@@ -82,6 +82,7 @@ jobs:
       elif [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
         export TEMP="$(pwd)\\Temp Snapshots"
         mkdir -p "$TEMP"
+        try-and-retry curl -kfSL -o c:\windows\7zr.exe "https://www.7-zip.org/a/7zr.exe"
       fi
       dotnet test --no-build -c Release
       # dotnet test --collect:"XPlat Code Coverage" --logger trx

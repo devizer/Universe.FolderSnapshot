@@ -14,8 +14,15 @@
         {
             get
             {
-                var result = ExecProcessHelper.HiddenExec("7zr", "");
-                return result.ExitCode == 0;
+                try
+                {
+                    var result = ExecProcessHelper.HiddenExec("7zr", "");
+                    return result.ExitCode == 0;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
