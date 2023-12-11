@@ -6,6 +6,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Binaries\7zr.exe" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Binaries\7zr.exe" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>      
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="All" />
     </ItemGroup>
 

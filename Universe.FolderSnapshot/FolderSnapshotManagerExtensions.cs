@@ -7,19 +7,23 @@ public static class FolderSnapshotManagerExtensions
     public static List<IFolderSnapshotManager> GetListByPlatform()
     {
         var ret = new List<IFolderSnapshotManager>();
+
+        ret.Add(new Windows7zrSnapshotManager(0));
+        ret.Add(new Windows7zrSnapshotManager(1));
+
         if (TinyCrossInfo.IsWindows)
         {
-            ret.Add(new ZipFileSnapshotManager(NetZipCompressionLevel.NoCompression));
-            ret.Add(new ZipFileSnapshotManager(NetZipCompressionLevel.Fastest));
+            ret.Add(new NetZipFileSnapshotManager(NetZipCompressionLevel.NoCompression));
+            ret.Add(new NetZipFileSnapshotManager(NetZipCompressionLevel.Fastest));
             ret.Add(new XCopySnapshotManager(true));
             ret.Add(new XCopySnapshotManager(false));
         }
         else
         {
-            if (ZipFileSnapshotManager.IsSupported)
+            if (NetZipFileSnapshotManager.IsSupported)
             {
-                ret.Add(new ZipFileSnapshotManager(NetZipCompressionLevel.NoCompression));
-                ret.Add(new ZipFileSnapshotManager(NetZipCompressionLevel.Fastest));
+                ret.Add(new NetZipFileSnapshotManager(NetZipCompressionLevel.NoCompression));
+                ret.Add(new NetZipFileSnapshotManager(NetZipCompressionLevel.Fastest));
             }
 
             foreach (var compressorDefinition in NixCompressionCatalog.TarCompressors)
@@ -34,9 +38,14 @@ public static class FolderSnapshotManagerExtensions
 
     public static bool IsSupported(this IFolderSnapshotManager manager)
     {
-        NixSnapshotManager nixMan = manager as NixSnapshotManager;
-        if (nixMan != null)
+        if (manager is NixSnapshotManager nixMan)
             return nixMan.IsCompressionSupported;
+
+        if (manager is Windows7zrSnapshotManager win7z)
+            return win7z.IsSupported;
+
+        if (manager is NetZipFileSnapshotManager netZip)
+            return NetZipFileSnapshotManager.IsSupported;
 
         return true;
     }
@@ -47,7 +56,7 @@ public static class FolderSnapshotManagerExtensions
         if (nixMan != null)
             return nixMan.Compression.Title;
 
-        if (manager is ZipFileSnapshotManager winMan)
+        if (manager is NetZipFileSnapshotManager winMan)
         {
             return "ZipFile." + winMan.CompressionLevel;
         }
@@ -57,6 +66,10 @@ public static class FolderSnapshotManagerExtensions
             return $"xcopy.{(xcopyMan.Buffered ? "buffered" : "pass-through")}";
         }
 
+        if (manager is Windows7zrSnapshotManager win7z)
+        {
+            return $"7z.{win7z.CompressionLevel}";
+        }
 
         return manager?.GetType().Name;
     }

@@ -4,12 +4,12 @@ using System.IO.Compression;
 
 namespace Universe.FolderSnapshot
 {
-    public class ZipFileSnapshotManager : IFolderSnapshotManager
+    public class NetZipFileSnapshotManager : IFolderSnapshotManager
     {
 
         public readonly NetZipCompressionLevel CompressionLevel;
 
-        public ZipFileSnapshotManager(NetZipCompressionLevel compressionLevel)
+        public NetZipFileSnapshotManager(NetZipCompressionLevel compressionLevel)
         {
             CompressionLevel = compressionLevel;
         }
