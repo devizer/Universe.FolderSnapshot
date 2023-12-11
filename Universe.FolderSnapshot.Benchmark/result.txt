@@ -1,0 +1,29 @@
+CPU: Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz, 2 Cores
+
+| Method              | Mean     | Error   | StdDev  | Rank | Allocated |
+|-------------------- |---------:|--------:|--------:|-----:|----------:|
+| ZipFileUncompressed | 196.8 ms | 3.90 ms | 7.87 ms |    2 |   2.14 MB |
+| ZipFileFastest      | 183.9 ms | 2.53 ms | 2.25 ms |    1 |   2.32 MB |
+
+// * Hints *
+Outliers
+  RestoreSnapshotBenchmarks.ZipFileUncompressed: Default -> 9 outliers were removed, 12 outliers were detected (154.69 ms..179.14 ms, 211.98 ms..245.62 ms)
+  RestoreSnapshotBenchmarks.ZipFileFastest: Default      -> 1 outlier  was  removed (193.61 ms)
+
+// * Legends *
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Rank      : Relative position of current benchmark mean among all benchmarks (Arabic style)
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 ms      : 1 Millisecond (0.001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+Run time: 00:01:47 (107.61 sec), executed benchmarks: 2
+
+Global total time: 00:01:58 (118.88 sec), executed benchmarks: 2
+// * Artifacts cleanup *
+Artifacts cleanup is finished

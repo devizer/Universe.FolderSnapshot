@@ -8,6 +8,7 @@ namespace Universe.FolderSnapshot.Benchmark;
 public class RestoreSnapshotBenchmarks
 {
     private string TestObjectFullPath, TestSnapshotFolder;
+    private List<string> _CleanFilesAndDirectories = new List<string>();
 
     private Lazy<string> _ZipFileUncompressedSnapshot;
     private Lazy<string> _ZipFileFastestSnapshot;
@@ -42,6 +43,7 @@ public class RestoreSnapshotBenchmarks
     public void ZipFileUncompressed()
     {
         var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.ZipFile.Uncompressed.{Guid.NewGuid().ToString("N")}");
+        _CleanFilesAndDirectories.Add(restoreTo);
         _ZipFileUncompressedSnapshotManager.RestoreSnapshot(_ZipFileUncompressedSnapshot.Value, restoreTo);
     }
 
@@ -49,6 +51,23 @@ public class RestoreSnapshotBenchmarks
     public void ZipFileFastest()
     {
         var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.ZipFile.Fastest.{Guid.NewGuid().ToString("N")}");
+        _CleanFilesAndDirectories.Add(restoreTo);
         _ZipFileFastestSnapshotManager.RestoreSnapshot(_ZipFileFastestSnapshot.Value, restoreTo);
+    }
+
+    [GlobalCleanup]
+    public void GlobalCleanup()
+    {
+        foreach (var path in _CleanFilesAndDirectories)
+        {
+            try
+            {
+                if (File.Exists(path)) File.Delete(path);
+                if (Directory.Exists(path)) Directory.Delete(path, true);
+            }
+            catch
+            {
+            }
+        }
     }
 }
