@@ -167,9 +167,12 @@ jobs:
           export LOOP_DIRECT_IO=on
           export MOVE_DOCKER_TO_RAID=
           export FS=EXT4
+          url=https://raw.githubusercontent.com/devizer/glist/master/Raid0-on-Azure-Pipelines-Linux.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
           export TMPDIR="/raid-0/benchmarks"
           sudo mkdir -p "$TMPDIR"; sudo chown -R $USER "$TMPDIR"; sudo chmod 1777 "$TMPDIR"
-          url=https://raw.githubusercontent.com/devizer/glist/master/Raid0-on-Azure-Pipelines-Linux.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
+          ls -la "$TMPDIR"
+          Say "TMPDIR is $TMPDIR"
+          ls -la "$TMPDIR"
        fi
 
        cd Universe.FolderSnapshot.Benchmark
