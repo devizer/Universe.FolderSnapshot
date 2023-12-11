@@ -142,11 +142,11 @@ jobs:
   strategy:
     maxParallel: 3
     matrix:
-      'vDefault on Mac OS':
-        IMAGE: 'macos-12'
-      'vDefault Windows 2022':
+      'on Mac OS Latest':
+        IMAGE: 'macos-latest'
+      'on Windows 2022':
         IMAGE: 'windows-2022'
-      'vDefault on Ubuntu 22.04':
+      'on Ubuntu 22.04':
         IMAGE: 'ubuntu-22.04'
 
   steps:
