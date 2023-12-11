@@ -152,7 +152,7 @@ jobs:
   steps:
 
   - bash: |
-       export DOTNET_VERSIONS="5.0 6.0 7.0"
+       export DOTNET_VERSIONS="8.0"
        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash; test -s /usr/share/dotnet/dotnet && sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet; test -s /usr/local/share/dotnet/dotnet && sudo ln -f -s /usr/local/share/dotnet/dotnet /usr/local/bin/dotnet; 
        dotnet --info
     condition: succeededOrFailed()
@@ -160,7 +160,7 @@ jobs:
 
   - bash: |
        cd Universe.FolderSnapshot.Benchmark
-       dotnet run -c Release -f net6.0
+       dotnet run -c Release -f net8.0
     condition: succeededOrFailed()
     displayName: 'Benchmark'
 
