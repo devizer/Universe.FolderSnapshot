@@ -53,8 +53,9 @@ jobs:
        Say --Reset-Stopwatch
        set -e
        if [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
-         try-and-retry curl -kfSL -o c:\windows\7zr.exe "https://www.7-zip.org/a/7zr.exe"
-         ls -la c:\windows\7zr.exe
+         uname -a
+         try-and-retry curl -kfSL -o c:\\windows\\7zr.exe "https://www.7-zip.org/a/7zr.exe"
+         ls -la c:\\windows\\7zr.exe
          7zr.exe
        fi
        sewt +e
