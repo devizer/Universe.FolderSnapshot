@@ -29,9 +29,9 @@
 
         public void CreateSnapshot(string sourceFolder, string destinationFile)
         {
-            string args = $"a -mx={CompressionLevel} \"{destinationFile}\" \"{sourceFolder}\"";
+            string args = $"a -mx={CompressionLevel} \"{destinationFile}\" .";
             // Console.WriteLine($"{Compression.Title} command line: {Environment.NewLine}sh {args}");
-            var result = ExecProcessHelper.HiddenExec("7zr", args);
+            var result = ExecProcessHelper.HiddenExec("7zr", args, workingDirectory: sourceFolder);
             result.DemandGenericSuccess($"Create 7z archive '{destinationFile}' from '{sourceFolder}' folder using 7zr(.exe)");
         }
 
