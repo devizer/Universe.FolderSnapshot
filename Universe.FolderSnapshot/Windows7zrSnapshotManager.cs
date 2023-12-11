@@ -42,6 +42,6 @@
             result.DemandGenericSuccess($"Extract 7z archive '{sourceFile}' to '{destinationFolder}' folder using 7zr(.exe)");
         }
 
-        public string Extension { get; } = ".7z";
+        public string Extension => $".Level{CompressionLevel}.7z";
     }
 }
