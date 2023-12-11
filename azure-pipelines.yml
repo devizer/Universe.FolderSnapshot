@@ -57,7 +57,7 @@ jobs:
          try-and-retry curl -kfSL -o c:\\windows\\7zr.exe "https://www.7-zip.org/a/7zr.exe"
          ls -la c:\\windows\\7zr.exe
          try-and-retry curl -kfSL -o c:\\windows\\7z2301-x64.exe "https://www.7-zip.org/a/7z2301-x64.exe"
-         c:\\windows\\7zr.exe x -y -oc:\\windows c:\\windows\\7z2301-x64.exe
+         c:\\windows\\7zr.exe x -y -oc:\\windows c:\\windows\\7z2301-x64.exe >nul
          cp -f c:\\windows\\7z.exe c:\\windows\\7zr.exe
          ls -la c:\\windows\\7zr.exe
        fi
@@ -94,6 +94,7 @@ jobs:
         mkdir -p "$TEMP"
       fi
       dotnet test --no-build -c Release
+      echo "CPU: $(Get-CpuName)"
       # dotnet test --collect:"XPlat Code Coverage" --logger trx
     retryCountOnTaskFailure: 1
     timeoutInMinutes: 10
