@@ -135,7 +135,7 @@ jobs:
     displayName: 'Linux System Statistic'
 
 - job: Benchmark
-  dependsOn: Test
+  # dependsOn: Test
   pool:
     vmImage: '$(IMAGE)'
   timeoutInMinutes: 20
@@ -170,8 +170,9 @@ jobs:
           export RESET_FOLDERS_TO_RAID="$HOME/benchmarks"
           export LOOP_DIRECT_IO=on
           export MOVE_DOCKER_TO_RAID=
-          export FS=BTRFS
-          mkdir $HOME/benchmarks
+          export FS=EXT4
+          export TMPDIR="$HOME/benchmarks"
+          mkdir -p "$TMPDIR"
           url=https://raw.githubusercontent.com/devizer/glist/master/Raid0-on-Azure-Pipelines-Linux.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
        fi
 
