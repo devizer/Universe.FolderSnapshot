@@ -152,6 +152,10 @@ jobs:
   steps:
 
   - bash: |
+    condition: succeededOrFailed()
+    displayName: 'Raid On Linux'
+
+  - bash: |
        export DOTNET_VERSIONS="8.0"
        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash; test -s /usr/share/dotnet/dotnet && sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet; test -s /usr/local/share/dotnet/dotnet && sudo ln -f -s /usr/local/share/dotnet/dotnet /usr/local/bin/dotnet; 
        dotnet --info
@@ -159,9 +163,22 @@ jobs:
     displayName: 'Bootstrap .NET SDK'
 
   - bash: |
+       set -eu; set -o pipefail;
+       echo "CPU: $(Get-CpuName)"
+       if [[ "$(uname -s)" == Linux ]]; then
+          export SECOND_DISK_MODE=LOOP
+          export RESET_FOLDERS_TO_RAID="$HOME/benchmarks"
+          export LOOP_DIRECT_IO=on
+          export MOVE_DOCKER_TO_RAID=
+          export FS=BTRFS
+          mkdir $HOME/benchmarks
+          url=https://raw.githubusercontent.com/devizer/glist/master/Raid0-on-Azure-Pipelines-Linux.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
+       fi
+
        cd Universe.FolderSnapshot.Benchmark
        dotnet run -c Release -f net8.0
+       echo "CPU: $(Get-CpuName)"
     condition: succeededOrFailed()
-    displayName: 'Benchmark'
+    displayName: '★BENCHMARK★'
 
 
