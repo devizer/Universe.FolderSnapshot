@@ -56,6 +56,10 @@ jobs:
          uname -a
          try-and-retry curl -kfSL -o c:\\windows\\7zr.exe "https://www.7-zip.org/a/7zr.exe"
          ls -la c:\\windows\\7zr.exe
+         try-and-retry curl -kfSL -o c:\\windows\\7z2301-x64.exe "https://www.7-zip.org/a/7z2301-x64.exe"
+         c:\\windows\\7zr.exe x -y -oc:\\windows c:\\windows\\7z2301-x64.exe
+         cp -f c:\\windows\\7z.exe c:\\windows\\7zr.exe
+         ls -la c:\\windows\\7zr.exe
        fi
        echo "CPU: $(Get-CpuName)"
        export DOTNET_VERSIONS="5.0 6.0 7.0"
