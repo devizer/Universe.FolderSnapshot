@@ -49,16 +49,14 @@ jobs:
   steps:
 
   - bash: |
+       set -e
        script=https://raw.githubusercontent.com/devizer/test-and-build/master/install-build-tools-bundle.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash >/dev/null
        Say --Reset-Stopwatch
-       set -e
        if [[ "$(uname -s)" == MINGW* || "$(uname -s)" == MSYS* ]]; then 
          uname -a
          try-and-retry curl -kfSL -o c:\\windows\\7zr.exe "https://www.7-zip.org/a/7zr.exe"
          ls -la c:\\windows\\7zr.exe
-         7zr.exe
        fi
-       set -e
        echo "CPU: $(Get-CpuName)"
        export DOTNET_VERSIONS="5.0 6.0 7.0"
        script=https://raw.githubusercontent.com/devizer/test-and-build/master/lab/install-DOTNET.sh; (wget -q -nv --no-check-certificate -O - $script 2>/dev/null || curl -ksSL $script) | bash; test -s /usr/share/dotnet/dotnet && sudo ln -f -s /usr/share/dotnet/dotnet /usr/local/bin/dotnet; test -s /usr/local/share/dotnet/dotnet && sudo ln -f -s /usr/local/share/dotnet/dotnet /usr/local/bin/dotnet; 
