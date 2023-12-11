@@ -163,10 +163,10 @@ jobs:
        echo "CPU: $(Get-CpuName)"
        if [[ "$(uname -s)" == Linux ]]; then
           export SECOND_DISK_MODE=LOOP
-          export RESET_FOLDERS_TO_RAID="$HOME/benchmarks"
+          # export RESET_FOLDERS_TO_RAID="$HOME/benchmarks"
           export LOOP_DIRECT_IO=off
           export MOVE_DOCKER_TO_RAID=
-          export FS=EXT4
+          export FS=EXT2
           url=https://raw.githubusercontent.com/devizer/glist/master/Raid0-on-Azure-Pipelines-Linux.sh; (wget -q -nv --no-check-certificate -O - $url 2>/dev/null || curl -ksSL $url) | bash
           export TMPDIR="/raid-0/benchmarks"
           sudo mkdir -p "$TMPDIR"; sudo chown -R $USER "$TMPDIR"; sudo chmod 1777 "$TMPDIR"
