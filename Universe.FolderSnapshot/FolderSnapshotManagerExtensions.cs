@@ -8,8 +8,6 @@ public static class FolderSnapshotManagerExtensions
     {
         var ret = new List<IFolderSnapshotManager>();
 
-        ret.Add(new Windows7zrSnapshotManager(0));
-        ret.Add(new Windows7zrSnapshotManager(1));
 
         if (TinyCrossInfo.IsWindows)
         {
@@ -32,6 +30,9 @@ public static class FolderSnapshotManagerExtensions
                 ret.Add(man);
             }
         }
+
+        ret.Add(new Windows7zrSnapshotManager(0));
+        ret.Add(new Windows7zrSnapshotManager(1));
 
         return ret;
     }

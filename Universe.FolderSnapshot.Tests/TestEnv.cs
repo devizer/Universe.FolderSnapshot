@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Universe.FolderSnapshot.Tests
 {
-    internal class TestEnv
+    public class TestEnv
     {
         private static Lazy<string> _TestObjectFullPath = new Lazy<string>(PrepareTestObjectFullPath, LazyThreadSafetyMode.ExecutionAndPublication);
 
