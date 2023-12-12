@@ -138,7 +138,7 @@ jobs:
   # dependsOn: Test
   pool:
     vmImage: '$(IMAGE)'
-  timeoutInMinutes: 20
+  timeoutInMinutes: 60
   strategy:
     maxParallel: 3
     matrix:
