@@ -24,7 +24,9 @@ namespace Universe.FolderSnapshot.Tests
             var ret = Path.Combine(tempRoot, "Snapshot tests original object");
             if (!Directory.Exists(ret)) Directory.CreateDirectory(ret);
 
-            var extractArgs = $"x -y -o\"{ret}\" TestObject{slash}TestObject.7z";
+            var testObjectRelativePath = $"TestObject{slash}TestObject.7z";
+            Console.WriteLine($"Current Directory: '{Environment.CurrentDirectory}'. Is {testObjectRelativePath} exists: {File.Exists(testObjectRelativePath)}");
+            var extractArgs = $"x -y -o\"{ret}\" {testObjectRelativePath}";
             CrossInfo.HiddenExec("7z", extractArgs, out var output, out var exitCode);
             if (exitCode != 0)
             {
