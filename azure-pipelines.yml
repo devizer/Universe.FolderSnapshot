@@ -176,7 +176,11 @@ jobs:
        fi
 
        cd Universe.FolderSnapshot.Benchmark
-       dotnet run -c Release -f net8.0
+       dotnet build -c Release -f net8.0 -o bin/tests
+       cd bin/tests
+       dotnet Universe.FolderSnapshot.Benchmark.dll
+
+       # dotnet run -c Release -f net8.0
        echo "CPU: $(Get-CpuName)"
     condition: succeededOrFailed()
     displayName: '★BENCHMARK★'
