@@ -1,5 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
+using System.Collections.Generic;
+using System.IO;
 using Universe.FolderSnapshot.Tests;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Universe.FolderSnapshot.Benchmark;
 
@@ -7,53 +10,25 @@ namespace Universe.FolderSnapshot.Benchmark;
 [MemoryDiagnoser]
 public class RestoreSnapshotBenchmarks
 {
-    private string TestObjectFullPath, TestSnapshotFolder;
     private List<string> _CleanFilesAndDirectories = new List<string>();
 
-    private Lazy<string> _ZipFileUncompressedSnapshot;
-    private Lazy<string> _ZipFileFastestSnapshot;
-    NetZipFileSnapshotManager _ZipFileUncompressedSnapshotManager = new NetZipFileSnapshotManager(NetZipCompressionLevel.NoCompression);
-    NetZipFileSnapshotManager _ZipFileFastestSnapshotManager = new NetZipFileSnapshotManager(NetZipCompressionLevel.Fastest);
+    private static Lazy<List<SnapshotBenchmarkCase>> _Cases = new Lazy<List<SnapshotBenchmarkCase>>(GetBenchmarkCases, LazyThreadSafetyMode.ExecutionAndPublication);
 
     public RestoreSnapshotBenchmarks()
     {
-        _ZipFileUncompressedSnapshot = new Lazy<string>(GetZipFileUncompressedSnapshot, LazyThreadSafetyMode.ExecutionAndPublication);
-        _ZipFileFastestSnapshot = new Lazy<string>(GetZipFileFastestSnapshot, LazyThreadSafetyMode.ExecutionAndPublication);
-        TestObjectFullPath = TestEnv.TestObjectFullPath;
-        TestSnapshotFolder = TestEnv.TestSnapshotFolder;
-        var folder1 = _ZipFileUncompressedSnapshot.Value;
-        var folder2 = _ZipFileFastestSnapshot.Value;
     }
 
-    string GetZipFileUncompressedSnapshot()
-    {
-        var snapshot = Path.Combine(TestEnv.TestSnapshotFolder, $"Snapshot.Uncompressed.{Guid.NewGuid().ToString("N")}.zip");
-        _ZipFileUncompressedSnapshotManager.CreateSnapshot(TestObjectFullPath, snapshot);
-        return snapshot;
-    }
-
-    string GetZipFileFastestSnapshot()
-    {
-        var snapshot = Path.Combine(TestEnv.TestSnapshotFolder, $"Snapshot.Fastest.{Guid.NewGuid().ToString("N")}.zip");
-        _ZipFileFastestSnapshotManager.CreateSnapshot(TestObjectFullPath, snapshot);
-        return snapshot;
-    }
 
     [Benchmark]
-    public void ZipFileUncompressed()
+    [ArgumentsSource(nameof(Cases))]
+    public void Restore(SnapshotBenchmarkCase manager)
     {
-        var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.ZipFile.Uncompressed.{Guid.NewGuid().ToString("N")}");
+        var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.{Guid.NewGuid().ToString("N")}{manager.Manager.Extension}");
         _CleanFilesAndDirectories.Add(restoreTo);
-        _ZipFileUncompressedSnapshotManager.RestoreSnapshot(_ZipFileUncompressedSnapshot.Value, restoreTo);
+        manager.Manager.RestoreSnapshot(manager.Snapshot, restoreTo);
     }
 
-    [Benchmark]
-    public void ZipFileFastest()
-    {
-        var restoreTo = Path.Combine(TestEnv.TestSnapshotFolder, $"Restored.ZipFile.Fastest.{Guid.NewGuid().ToString("N")}");
-        _CleanFilesAndDirectories.Add(restoreTo);
-        _ZipFileFastestSnapshotManager.RestoreSnapshot(_ZipFileFastestSnapshot.Value, restoreTo);
-    }
+    public List<SnapshotBenchmarkCase> Cases => _Cases.Value;
 
     [GlobalCleanup]
     public void GlobalCleanup()
@@ -68,6 +43,50 @@ public class RestoreSnapshotBenchmarks
             catch
             {
             }
+        }
+    }
+
+    static List<SnapshotBenchmarkCase> GetBenchmarkCases()
+    {
+        var supportedManagers =
+            FolderSnapshotManagerExtensions.GetListByPlatform()
+                .Where(x => x.IsSupported())
+                .ToList();
+
+        List<SnapshotBenchmarkCase> ret = new List<SnapshotBenchmarkCase>();
+        foreach (var manager in supportedManagers)
+        {
+            var snapshotFullName = Path.Combine(TestEnv.TestSnapshotFolder, $"Snapshot{manager.Extension}");
+            try
+            {
+                if (File.Exists(snapshotFullName)) File.Delete(snapshotFullName);
+                if (Directory.Exists(snapshotFullName)) Directory.Delete(snapshotFullName, true);
+            }
+            catch
+            {
+            }
+            manager.CreateSnapshot(TestEnv.TestObjectFullPath, snapshotFullName);
+            ret.Add(new SnapshotBenchmarkCase()
+            {
+                Manager = manager,
+                Snapshot = snapshotFullName
+            });
+        }
+
+        var titles = ret.Select(x => x.Manager.GetTitle());
+        Console.WriteLine($"// Total Supported Snapshot Managers {ret.Count}: {string.Join(", ", titles)}");
+
+        return ret;
+    }
+
+    public class SnapshotBenchmarkCase
+    {
+        public IFolderSnapshotManager Manager;
+        public string Snapshot;
+
+        public override string ToString()
+        {
+            return Manager.GetTitle();
         }
     }
 }
